@@ -14,7 +14,21 @@ describe('Validate Headers', () => {
             expect(body.name).to.eq('ditto');
             expect(body.abilities).to.have.length(2);
             
-            
-        })
+        });
+    });
+    it('Successfully validate status code', () => {
+        cy.request('https://pokeapi.co/api/v2/pokemon/ditto').as('ditto')
+        cy.get('@ditto').its('status').should('equal', 200)
+    });
+    it('Successfully validate status code with params', () => {
+        cy.request('https://pokeapi.co/api/v2/pokemon/bulbasaur').as('bulbassaur')
+        cy.get('@bulbassaur').its('body').should('include', { name: "bulbasaur" })
+    
+    });
+    it('Tugas Api 10.3 Validate Content', () => {
+        cy.request('https://pokeapi.co/api/v2/pokemon/ditto').as('pokemon')
+        cy.get('@pokemon').its('body').then((body) => {
+            expect(body.abilities[0].ability.name).to.equal('limber');
+        });
     });
 })
